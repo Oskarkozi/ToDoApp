@@ -15,7 +15,7 @@ $success_message = ""; // Zmienna na komunikat o sukcesie
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nazwa_notatki = trim($_POST['nazwa_notatki']);
     $tresc = trim($_POST['tresc']);
-    $priorytet = (int)$_POST['priorytet'];
+    $priorytet = (int)$_POST['priorytet']; // Priorytet nadal przekazywany jako liczba (1, 2, 3)
 
     // Połączenie z bazą danych
     $conn = new mysqli('localhost', 'root', '', 'todo');
@@ -74,7 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea id="note-content" name="tresc" placeholder="Wpisz treść notatki" required></textarea>
 
             <label for="priority">Priorytet:</label>
-            <input type="number" id="priority" name="priorytet" min="1" max="3" required>
+            <!-- Zmieniamy pole input na select -->
+            <select id="priority" name="priorytet" required>
+                <option value="1">Ważne</option>
+                <option value="2">Średnie</option>
+                <option value="3">Mało ważne</option>
+            </select>
 
             <button type="submit">Dodaj Notatkę</button>
         </form>

@@ -1,18 +1,23 @@
+/* Resetowanie marginesów, paddingów i box-sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Globalne style dla body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #b39b6f; /* Kolor tła */
+    background-color: #b39b6f;
+    /* Kolor tła */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    padding: 20px;
 }
 
+/* Stylizacja kontenera logowania */
 .login-container {
     display: flex;
     justify-content: center;
@@ -22,12 +27,14 @@ body {
 }
 
 .login-box {
-    background-color: #d6c7a1; /* Kolor pudełka */
-    padding: 20px;
+    background-color: #d6c7a1;
+    /* Kolor pudełka */
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 300px;
+    width: 320px;
+    max-width: 100%;
 }
 
 .login-box h1 {
@@ -38,36 +45,45 @@ body {
 
 .login-box input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 15px;
     border: none;
     border-radius: 5px;
     background-color: #f0e9d7;
     font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login-box input:focus {
+    background-color: #fff;
 }
 
 .login-box button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     background-color: #a37b4a;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .login-box button:hover {
     background-color: #8a6533;
 }
 
+/* Stylizacja kontenera dashboard */
 .dashboard-container {
-    background-color: #d6c7a1; /* Kolor pudełka */
-    padding: 20px;
+    background-color: #d6c7a1;
+    /* Kolor pudełka */
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 400px;
+    max-width: 100%;
 }
 
 .dashboard-container h1 {
@@ -78,18 +94,26 @@ body {
 
 .dashboard-container input,
 .dashboard-container textarea,
+.dashboard-container select,
 .dashboard-container button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 15px;
     border: none;
     border-radius: 5px;
     background-color: #f0e9d7;
     font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-container input:focus,
+.dashboard-container textarea:focus,
+.dashboard-container select:focus {
+    background-color: #fff;
 }
 
 .dashboard-container textarea {
-    height: 100px;
+    height: 120px;
 }
 
 .dashboard-container button {
@@ -100,4 +124,93 @@ body {
 
 .dashboard-container button:hover {
     background-color: #8a6533;
+}
+
+/* Ulepszona siatka notatek */
+.content {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.column {
+    background-color: #d6c7a1;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.column h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #000;
+}
+
+.column4 {
+    background-color: #b39b6f;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.note {
+    background-color: #f0e9d7;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 5px solid;
+}
+
+.note.prio-1 {
+    border-left-color: #e74c3c;
+}
+
+.note.prio-2 {
+    border-left-color: #f1c40f;
+}
+
+.note.prio-3 {
+    border-left-color: #2ecc71;
+}
+
+/* Sekcja przycisków w dashboardzie */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: #d6c7a1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #a37b4a;
+    padding: 12px 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.buttons a:hover {
+    background-color: #8a6533;
+}
+
+/* Style dla formularzy wyboru priorytetu */
+.dashboard-container select {
+    background-color: #f0e9d7;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-container select:focus {
+    background-color: #fff;
 }
