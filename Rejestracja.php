@@ -12,40 +12,55 @@
             <h1>Zarejestruj się</h1>
 
             <?php
+            if (isset($_POST['submit'])) {
+                $login = trim($_POST['login']);
+                $haslo = trim($_POST['password']);
+                $hasloPotwierdz = trim($_POST['confirm_password']);
 
-            if(isset($_POST['submit'])){
-                $login = $_POST['login'];
-                $haslo = $_POST['password'];
-                $hasloPotwierdz = $_POST['confirm_password'];
+                $conn = new mysqli('localhost', 'root', '', 'todo');
 
-                $conn = new mysqli('localhost', 'root', '', 'tozrob');
                 if ($conn->connect_error) {
-                    die("Połączenie zerwane: " . $conn->connect_error);
-                } else {
-                if ($haslo != $hasloPotwierdz) {
+                    die("<p style='color: red; text-align: center;'>Błąd połączenia z bazą danych: " . $conn->connect_error . "</p>");
+                }
+
+                if ($haslo !== $hasloPotwierdz) {
                     echo "<p style='color: red; text-align: center;'>Hasła nie są identyczne! Spróbuj ponownie.</p>";
                 } else {
-
-                    $stmt = $conn->prepare("insert into uzytkownicy(Login,Password)values(?,?)");
-                    $stmt->bind_param("ss",$login,$haslo);
+                    $stmt = $conn->prepare("SELECT COUNT(*) FROM uzytkownicy WHERE Login = ?");
+                    $stmt->bind_param("s", $login);
                     $stmt->execute();
-                    echo "<p style='color: green; text-align: center;'>Rejestracja udana!</p>";
+                    $stmt->bind_result($count);
+                    $stmt->fetch();
                     $stmt->close();
-                    $conn->close();
+
+                    if ($count > 0) {
+                        echo "<p style='color: red; text-align: center;'>Użytkownik o podanym loginie już istnieje. Wybierz inny login.</p>";
+                    } else {
+                        $stmt = $conn->prepare("INSERT INTO uzytkownicy (Login, Haslo) VALUES (?, ?)");
+                        $stmt->bind_param("ss", $login, $haslo);
+
+                        if ($stmt->execute()) {
+                            echo "<p style='color: green; text-align: center;'>Rejestracja udana! Możesz się teraz zalogować.</p>";
+                        } else {
+                            echo "<p style='color: red; text-align: center;'>Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.</p>";
+                        }
+
+                        $stmt->close();
+                    }
                 }
+
+                $conn->close();
             }
-        }
             ?>
 
-            <!-- Formularz rejestracyjny -->
             <form action="rejestracja.php" method="POST">
                 <input type="text" placeholder="Login" name="login" required>
                 <input type="password" placeholder="Hasło" name="password" required>
                 <input type="password" placeholder="Potwierdź hasło" name="confirm_password" required>
                 <button type="submit" name="submit">Zarejestruj się</button>
-                
             </form>
-            <br><a href="index.php"> <button>Zaloguj się</button></a>
+            <br>
+            <a href="index.php"><button type="button">Zaloguj się</button></a>
         </div>
     </div>
 </body>

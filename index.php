@@ -11,54 +11,45 @@
         <div class="login-box">
             <h1>ToZrob</h1>
             <?php
-session_start(); // Start the session at the top of the file
+            session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $login = $_POST['login'];
-    $haslo = $_POST['password'];
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $login = trim($_POST['login']);
+                $haslo = trim($_POST['password']);
 
-    // Connect to the database
-    $conn = new mysqli('localhost', 'root', '', 'tozrob');
+                $conn = new mysqli('localhost', 'root', '', 'todo');
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Połączenie zerwane: " . $conn->connect_error);
-    }
+                if ($conn->connect_error) {
+                    die("<p style='color: red; text-align: center;'>Błąd połączenia z bazą danych: " . $conn->connect_error . "</p>");
+                }
 
-    // Prepare the SQL statement to fetch the user
-    $stmt = $conn->prepare("SELECT * FROM uzytkownicy WHERE Login = ?");
-    $stmt->bind_param("s", $login);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+                $stmt = $conn->prepare("SELECT * FROM uzytkownicy WHERE Login = ?");
+                $stmt->bind_param("s", $login);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $user = $result->fetch_assoc();
 
-    // Check if user exists and if the password matches
-    if ($user && $user['Password'] === $haslo) {
-        // Store the user's ID in the session
-        $_SESSION['user_id'] = $user['Id'];
-        $_SESSION['user_login'] = $user['Login']; // You can also store the username if needed
+                if ($user && $user['Haslo'] === $haslo) { // Sprawdzanie hasła w formie jawnej
+                    $_SESSION['user_id'] = $user['uzytkownik_id'];
+                    $_SESSION['user_login'] = $user['Login'];
+                    header("Location: dashboard.php");
+                    exit();
+                } else {
+                    echo "<p style='color: red; text-align: center;'>Nieprawidłowy login lub hasło. Spróbuj ponownie.</p>";
+                }
 
-        // Redirect to dashboard.php
-        header("Location: dashboard.php");
-        exit();
-    } else {
-        echo "<p style='color: red; text-align: center;'>Nieprawidłowy login lub hasło. Spróbuj ponownie.</p>";
-    }
+                $stmt->close();
+                $conn->close();
+            }
+            ?>
 
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
-}
-?>
-
-            <!-- Formularz wysyła dane do login.php za pomocą POST -->
             <form action="index.php" method="POST">
                 <input type="text" placeholder="Login" name="login" required>
                 <input type="password" placeholder="Hasło" name="password" required>
                 <button type="submit">Zaloguj się</button>
             </form>
-            <br><a href="Rejestracja.php"> <button>Nie masz konta? zalóż</button></a>
+            <br><a href="rejestracja.php"><button type="button">Nie masz konta? Załóż</button></a>
         </div>
     </div>
 </body>
-</html> 
+</html>
