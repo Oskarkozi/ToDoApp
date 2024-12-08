@@ -60,3 +60,44 @@ body {
 .login-box button:hover {
     background-color: #8a6533;
 }
+
+.dashboard-container {
+    background-color: #d6c7a1; /* Kolor pudełka */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+}
+
+.dashboard-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #000;
+}
+
+.dashboard-container input,
+.dashboard-container textarea,
+.dashboard-container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0e9d7;
+    font-size: 16px;
+}
+
+.dashboard-container textarea {
+    height: 100px;
+}
+
+.dashboard-container button {
+    background-color: #a37b4a;
+    color: #fff;
+    cursor: pointer;
+}
+
+.dashboard-container button:hover {
+    background-color: #8a6533;
+}

@@ -27,6 +27,7 @@ $user_login = $_SESSION['user_login'];
 
         <!-- Button to redirect to dodaj.php -->
         <a href="dodaj.php"><button>Dodaj nowe dane</button></a>
+        <a href="index.php"><button>Wyloguj</button></a>
 
     </div>
 </body>
