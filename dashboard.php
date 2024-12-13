@@ -92,6 +92,7 @@ $conn->close();
             margin-bottom: 10px;
             border-radius: 5px;
             border-left: 5px solid;
+            position: relative;
         }
         
         .note.prio-1 {
@@ -104,6 +105,23 @@ $conn->close();
 
         .note.prio-3 {
             border-left-color: #2ecc71;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b;
         }
 
         /* Sekcja przycisków */
@@ -148,6 +166,10 @@ $conn->close();
                     <div class="note prio-1">
                         <h3><?php echo htmlspecialchars($note['Nazwa_Notatki']); ?></h3>
                         <p><?php echo htmlspecialchars($note['Tresc']); ?></p>
+                        <form method="POST" action="usun_notatke.php">
+                            <input type="hidden" name="notatka_id" value="<?php echo $note['notatka_id']; ?>">
+                            <button type="submit" class="delete-button">Usuń</button>
+                        </form>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -162,6 +184,10 @@ $conn->close();
                     <div class="note prio-2">
                         <h3><?php echo htmlspecialchars($note['Nazwa_Notatki']); ?></h3>
                         <p><?php echo htmlspecialchars($note['Tresc']); ?></p>
+                        <form method="POST" action="usun_notatke.php">
+                            <input type="hidden" name="notatka_id" value="<?php echo $note['notatka_id']; ?>">
+                            <button type="submit" class="delete-button">Usuń</button>
+                        </form>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -176,6 +202,10 @@ $conn->close();
                     <div class="note prio-3">
                         <h3><?php echo htmlspecialchars($note['Nazwa_Notatki']); ?></h3>
                         <p><?php echo htmlspecialchars($note['Tresc']); ?></p>
+                        <form method="POST" action="usun_notatke.php">
+                            <input type="hidden" name="notatka_id" value="<?php echo $note['notatka_id']; ?>">
+                            <button type="submit" class="delete-button">Usuń</button>
+                        </form>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
