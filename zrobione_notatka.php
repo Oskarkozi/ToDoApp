@@ -1,39 +1,35 @@
 <?php
 session_start();
 
+// Sprawdź, czy użytkownik jest zalogowany
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
 }
 
-if (!isset($_POST['notatka_id'])) {
-    die("Brak ID notatki.");
-}
-
-$notatka_id = intval($_POST['notatka_id']);
-$host = "127.0.0.1";
-$user = "root";
-$password = "";
-$dbname = "todo";
-
-$conn = new mysqli($host, $user, $password, $dbname);
-
+// Połączenie z bazą danych
+$conn = new mysqli('localhost', 'root', '', 'todo');
 if ($conn->connect_error) {
     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 }
 
-$user_id = $_SESSION['user_id'];
+// Pobranie danych z żądania
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $notatka_id = intval($_POST['notatka_id']);
+    $zrobione = intval($_POST['zrobione']);
 
-$stmt = $conn->prepare("UPDATE notatka SET zrobione = NOT zrobione WHERE notatka_id = ? AND Uzytkownik_id = ?");
-$stmt->bind_param("ii", $notatka_id, $user_id);
+    // Aktualizacja pola "zrobione"
+    $stmt = $conn->prepare("UPDATE notatka SET zrobione = ? WHERE notatka_id = ?");
+    $stmt->bind_param("ii", $zrobione, $notatka_id);
 
-if ($stmt->execute()) {
-    header("Location: dashboard.php");
-    exit();
-} else {
-    echo "Błąd zmiany statusu notatki.";
+    if ($stmt->execute()) {
+        echo "success";
+    } else {
+        echo "error";
+    }
+
+    $stmt->close();
 }
 
-$stmt->close();
 $conn->close();
 ?>
